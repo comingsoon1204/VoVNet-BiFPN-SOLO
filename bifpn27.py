@@ -130,34 +130,9 @@ class SingleBiFPN(nn.Module):
             outs[i + 1] = self.out_combine_conv[i](outs[i + 1])
 
         return outs
-#
-# in_channels (list): 一个整数列表，表示输入特征图的通道数。这些特征图将被用于构建特征金字塔网络。
-#
-# out_channels (int): 整数，表示输出特征图的通道数。这是 BiFPN 中所有特征图的输出通道数。
-#
-# num_outs (int): 整数，表示 BiFPN 模块的输出数量。通常，它对应于构建特征金字塔网络时要生成的不同尺度的特征图数量。
-#
-# start_level (int): 整数，表示从输入特征图列表中的哪个级别开始构建特征金字塔。通常，它是输入特征图列表的索引。
-#
-# end_level (int): 整数，表示在输入特征图列表中的哪个级别结束构建特征金字塔。如果设置为-1，表示使用所有可用的输入级别。
-#
-# num_repeat (int): 整数，表示在 BiFPN 中重复执行的次数。这控制了特征金字塔网络中信息传递的深度。
-#
-# add_extra_convs (bool): 一个布尔值，指示是否在输入特征图之上添加额外的卷积层。这通常在一些目标检测模型（如 RetinaNet）中使用。
-#
-# relu_before_extra_convs (bool): 一个布尔值，指示是否在添加额外卷积层之前应用 ReLU 激活函数。
-#
-# no_norm_on_lateral (bool): 一个布尔值，指示是否在侧向连接上应用规范化。
-#
-# conv_cfg (dict): 一个字典，用于配置卷积层的参数，如卷积核大小、步幅等。
-#
-# norm_cfg (dict): 一个字典，用于配置规范化层的参数，如 Batch Normalization 层的设置。
-#
-# act_cfg (dict): 一个字典，用于配置激活函数的参数，如 Swish 激活函数。
-#
-# upsample_cfg (dict): 一个字典，用于配置上采样操作的参数，如上采样模式（'nearest'等）。
+
 @NECKS.register_module()
-class sBiFPN(nn.Module):
+class BiFPN(nn.Module):
     def __init__(self,
                  in_channels,
                  out_channels=160,
@@ -172,7 +147,7 @@ class sBiFPN(nn.Module):
                  norm_cfg=None,
                  act_cfg=None,
                  upsample_cfg=dict(mode='nearest')):
-        super(sBiFPN, self).__init__()
+        super(BiFPN, self).__init__()
         assert isinstance(in_channels, list)
         self.in_channels = in_channels
         self.out_channels = out_channels
